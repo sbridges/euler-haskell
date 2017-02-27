@@ -16,6 +16,7 @@ main = do
                 case arg of "1" -> show euler1
                             "2" -> show euler2
                             "3" -> show euler3
+                            "4" -> show euler4
   putStrLn answer
   return ()
 
@@ -31,12 +32,8 @@ fib = fmap fst (iterate nextFib (1,0))
 euler2 :: Int
 euler2 = sum ( filter (even) (takeWhile (\x ->  x < 4000000) fib))
 
-
-
-
 euler3 :: Integer
 euler3 = euler3Recursive (1, 2, 600851475143)
-
 
 -- if remainder / i is a whole number
 -- then i is a factor of remainder, 
@@ -52,4 +49,7 @@ euler3Recursive (maxPrime, i, remainder) =
    
 
 
-
+euler4 :: Integer
+euler4 = maximum (filter  
+            (\x -> (show x) == (reverse (show x)))  
+            [ x * y | x <-  [100   .. 999], y <- [100 .. 999] ] )
