@@ -19,6 +19,7 @@ main = do
                             "4" -> show euler4
                             "5" -> show euler5
                             "6" -> show euler6
+                            "7" -> show euler7
   putStrLn answer
   return ()
 
@@ -86,3 +87,18 @@ euler5  = product ( allFactorsRecursive [1 .. 20] [] )
 
 euler6 :: Integer
 euler6 = ((sum  [(1 :: Integer) .. 100]) ^ 2)  -  (sum (fmap (^ 2) [1 .. 100]))   
+
+isPrimeSlow :: Integer -> Bool
+isPrimeSlow 1 = False
+isPrimeSlow x = isPrimeSlowRecursive 2 x
+
+isPrimeSlowRecursive :: Integer -> Integer -> Bool
+isPrimeSlowRecursive acc x
+    | acc * acc > x = True
+    | x `mod` acc == 0 = False
+    | otherwise = isPrimeSlowRecursive (1+acc) x
+
+
+euler7 :: Integer
+euler7 = last (take 10001 [x | x <- [1 .. ], isPrimeSlow x])
+
