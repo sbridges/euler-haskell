@@ -17,6 +17,7 @@ main = do
                             "2" -> show euler2
                             "3" -> show euler3
                             "4" -> show euler4
+                            "5" -> show euler5
   putStrLn answer
   return ()
 
@@ -52,4 +53,34 @@ euler3Recursive (maxPrime, i, remainder) =
 euler4 :: Integer
 euler4 = maximum (filter  
             (\x -> (show x) == (reverse (show x)))  
-            [ x * y | x <-  [100   .. 999], y <- [100 .. 999] ] )
+            [ x * y | x <-  [100 .. 999], y <- [100 .. 999] ] )
+
+
+factor :: Integer -> [Integer]
+factor n = factorRecursive 2 n 
+
+
+factorRecursive ::  Integer -> Integer -> [Integer]
+factorRecursive i x  
+   |  x `mod` i == 0 =  i : (factorRecursive i (toInteger(div x i)))
+   |  i * i > x = [x]
+   |  otherwise = factorRecursive (i+1) x
+
+allFactorsRecursive :: [Integer] -> [Integer] -> [Integer]
+allFactorsRecursive  remaining  acc
+    | remaining == [] = [x | x <- acc, x /= 1]
+    | otherwise = allFactorsRecursive (tail remaining) (acc ++ (factor ( divAll  (head remaining) acc)))
+
+-- returns the remainder after dividing x by all elements of xs that divide x evenly
+divAll :: Integer -> [Integer] -> Integer
+divAll x xs 
+   | x == 1 = 1
+   | xs == [] = x
+   | x `mod` (head xs) == 0 = divAll (x `div` (head xs)) (tail xs)
+   | otherwise =  divAll x (tail xs)
+   
+euler5 :: Integer
+euler5  = product ( allFactorsRecursive [1 .. 20] [] )
+
+
+
