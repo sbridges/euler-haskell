@@ -18,6 +18,7 @@ main = do
                             "3" -> show euler3
                             "4" -> show euler4
                             "5" -> show euler5
+                            "6" -> show euler6
   putStrLn answer
   return ()
 
@@ -83,4 +84,5 @@ euler5 :: Integer
 euler5  = product ( allFactorsRecursive [1 .. 20] [] )
 
 
-
+euler6 :: Integer
+euler6 = ((sum  [(1 :: Integer) .. 100]) ^ 2)  -  (sum (fmap (^ 2) [1 .. 100]))   
