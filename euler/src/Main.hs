@@ -8,10 +8,14 @@ import System.Environment
 import Data.List
 import Data.Maybe
 import Debug.Trace
+import System.CPUTime
+import Text.Printf
+import Constants
 
 main :: IO ()
 main = do
   arg <- fmap head getArgs 
+  start <- getCPUTime 
   let answer =
                 case arg of "1" -> show euler1
                             "2" -> show euler2
@@ -20,8 +24,13 @@ main = do
                             "5" -> show euler5
                             "6" -> show euler6
                             "7" -> show euler7
+                            "8" -> show euler8
+  end <- getCPUTime
+  let diff = (fromIntegral (end - start)) / (10^12)
+  printf "Computation time: %0.3f sec\n" (diff :: Double)
   putStrLn answer
   return ()
+
 
 euler1 :: Int
 euler1 = sum ( filter (\x -> mod x 3 == 0 || mod x 5 == 0) [1..999] )
@@ -102,3 +111,13 @@ isPrimeSlowRecursive acc x
 euler7 :: Integer
 euler7 = last (take 10001 [x | x <- [1 .. ], isPrimeSlow x])
 
+e8SubLists :: [[Integer]]
+e8SubLists =  scanl fun (take 13 e8Ints) (drop 13 e8Ints) where
+    fun xs x = (tail xs)  ++ [x]
+
+euler8 :: Integer
+euler8  = maximum (fmap product e8SubLists) 
+
+
+
+        
