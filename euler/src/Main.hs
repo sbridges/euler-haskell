@@ -25,6 +25,7 @@ main = do
                             "6" -> show euler6
                             "7" -> show euler7
                             "8" -> show euler8
+                            "9" -> show euler9
   end <- getCPUTime
   let diff = (fromIntegral (end - start)) / (10^12)
   printf "Computation time: %0.3f sec\n" (diff :: Double)
@@ -118,6 +119,15 @@ e8SubLists =  scanl fun (take 13 e8Ints) (drop 13 e8Ints) where
 euler8 :: Integer
 euler8  = maximum (fmap product e8SubLists) 
 
+euler9 :: Integer
+euler9 = head [x | 
+    a <- [1 .. 100],  
+    b <- [a .. 100],  
+    let c = round (sqrt( fromIntegral (a^2 + b^2))),  
+    a + b + c == 1000, 
+    (a^2) + (b^2) == c^2, 
+    let x = a * b * c ]
 
 
-        
+
+
