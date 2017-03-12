@@ -26,6 +26,7 @@ main = do
                             "7" -> show euler7
                             "8" -> show euler8
                             "9" -> show euler9
+                            "10" -> show euler10
   end <- getCPUTime
   let diff = (fromIntegral (end - start)) / (10^12)
   printf "Computation time: %0.3f sec\n" (diff :: Double)
@@ -128,6 +129,15 @@ euler9 = head [x |
     (a^2) + (b^2) == c^2, 
     let x = a * b * c ]
 
+
+
+euler10 :: Integer
+euler10 = sum (takeWhile (< 2000000) primes)
+
+primes :: [Integer]
+primes = [x | x <- [2 .. ], isPrimeSlow x]
+
+ 
 
 
 
