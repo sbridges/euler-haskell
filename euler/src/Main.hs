@@ -27,6 +27,7 @@ main = do
                             "8" -> show euler8
                             "9" -> show euler9
                             "10" -> show euler10
+                            "11" -> show euler11
   end <- getCPUTime
   let diff = (fromIntegral (end - start)) / (10^12)
   printf "Computation time: %0.3f sec\n" (diff :: Double)
@@ -137,7 +138,18 @@ euler10 = sum (takeWhile (< 2000000) primes)
 primes :: [Integer]
 primes = [x | x <- [2 .. ], isPrimeSlow x]
 
- 
+euler11 :: Integer
+euler11 = (maximum . (map val)) (lr ++ down ++ dia1 ++ dia2) where
+    val :: ((Integer, Integer), (Integer, Integer)) -> Integer
+    val ((dx, dy), (x, y)) = (at x y) * (at (x + dx) (y + dy)) * (at (x + 2 * dx) (y + 2 * dy)) * (at (x + 3 * dx) (y + 3 * dy))    
+    lr = zip (repeat (1,0)) [(x,y) | x <- [0..16], y <-[0..19] ]
+    down = zip (repeat (0,1)) [(x,y) | x <- [0..19], y <-[0..16] ]
+    dia1 = zip (repeat (1,1)) [(x,y) | x <- [0..16], y <-[0..16] ]
+    dia2 = zip (repeat (-1,1)) [(x,y) | x <- [3..19], y <-[0..16] ]
+    at :: Integer -> Integer -> Integer
+    at x y = (e11Array !! (fromIntegral y)) !! (fromIntegral x)
+
+
 
 
 
