@@ -28,6 +28,7 @@ main = do
                             "9" -> show euler9
                             "10" -> show euler10
                             "11" -> show euler11
+                            "12" -> show euler12
   end <- getCPUTime
   let diff = (fromIntegral (end - start)) / (10^12)
   printf "Computation time: %0.3f sec\n" (diff :: Double)
@@ -70,20 +71,20 @@ euler4 = maximum (filter
             [ x * y | x <-  [100 .. 999], y <- [100 .. 999] ] )
 
 
-factor :: Integer -> [Integer]
-factor n = factorRecursive 2 n 
+primeFactor :: Integer -> [Integer]
+primeFactor n = primeFactorRecursive 2 n 
 
-
-factorRecursive ::  Integer -> Integer -> [Integer]
-factorRecursive i x  
-   |  x `mod` i == 0 =  i : (factorRecursive i (toInteger(div x i)))
+primeFactorRecursive ::  Integer -> Integer -> [Integer]
+primeFactorRecursive i x  
+   | x == 1 = []
+   |  x `mod` i == 0 =  i : (primeFactorRecursive i (toInteger(div x i)))
    |  i * i > x = [x]
-   |  otherwise = factorRecursive (i+1) x
+   |  otherwise = primeFactorRecursive (i+1) x
 
 allFactorsRecursive :: [Integer] -> [Integer] -> [Integer]
 allFactorsRecursive  remaining  acc
     | remaining == [] = [x | x <- acc, x /= 1]
-    | otherwise = allFactorsRecursive (tail remaining) (acc ++ (factor ( divAll  (head remaining) acc)))
+    | otherwise = allFactorsRecursive (tail remaining) (acc ++ (primeFactor ( divAll  (head remaining) acc)))
 
 -- returns the remainder after dividing x by all elements of xs that divide x evenly
 divAll :: Integer -> [Integer] -> Integer
@@ -150,6 +151,19 @@ euler11 = (maximum . (map val)) (lr ++ down ++ dia1 ++ dia2) where
     at x y = (e11Array !! (fromIntegral y)) !! (fromIntegral x)
 
 
+triangles :: [Integer]
+triangles = 1 : (zipWith (+) [2 .. ] (triangles))
 
+divisors :: Integer -> [Integer]
+divisors x = (divisors' 1 x) 
+
+divisors' :: Integer -> Integer -> [Integer]
+divisors' x y 
+    | x * x > y  = []
+    | y `mod` x == 0 = x : (fromIntegral (div y x)) : (divisors' (x + 1) y)
+    | otherwise = divisors' (x + 1) y
+
+euler12 :: Integer
+euler12 = head [x | x <- triangles, ((length . divisors) x) > 500] 
 
 
