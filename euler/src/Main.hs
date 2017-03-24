@@ -29,6 +29,8 @@ main = do
                             "10" -> show euler10
                             "11" -> show euler11
                             "12" -> show euler12
+                            "13" -> show euler13
+                            "14" -> show euler14
   end <- getCPUTime
   let diff = (fromIntegral (end - start)) / (10^12)
   printf "Computation time: %0.3f sec\n" (diff :: Double)
@@ -166,4 +168,19 @@ divisors' x y
 euler12 :: Integer
 euler12 = head [x | x <- triangles, ((length . divisors) x) > 500] 
 
+euler13 :: Integer
+euler13 = read ( take 10 (show (sum e13Array)))
 
+
+hotpo :: Integer -> [Integer]
+hotpo n 
+    | n == 1 = [1]
+    | n `mod` 2 == 0 = n : hotpo (n `div` 2)
+    | otherwise = n : hotpo (3 * n + 1)
+
+
+euler14 :: Integer
+euler14 = fst ( maximumBy cmp  [ (x, l) | x <- [(1 :: Integer) .. (1000000 -1)] , let l = length (hotpo x)] ) where
+          cmp :: (Integer, Int) -> (Integer, Int) -> Ordering
+          cmp x y = compare (snd x) (snd y)
+    
