@@ -194,3 +194,9 @@ factorial n = product [1..n]
 euler15 :: Integer
 euler15 = ( (factorial 40) `div` ((factorial 20) ^ 2))
 
+
+euler16 :: Integer
+euler16 = sum (map e ( (show (2^1000)))) where
+    e :: Char -> Integer
+    e x = read (x : [])
+       
