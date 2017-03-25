@@ -184,3 +184,13 @@ euler14 = fst ( maximumBy cmp  [ (x, l) | x <- [(1 :: Integer) .. (1000000 -1)] 
           cmp :: (Integer, Int) -> (Integer, Int) -> Ordering
           cmp x y = compare (snd x) (snd y)
     
+
+factorial :: Integer -> Integer
+factorial n = product [1..n]
+
+-- the route is all the unique permutations of 20 rights and 20 down
+-- if we consider each right/down to be distinct, this gives 40! combinations
+-- since each right/down is identical, there are 20!^2 dupes in those 40! combinations
+euler15 :: Integer
+euler15 = ( (factorial 40) `div` ((factorial 20) ^ 2))
+
