@@ -199,4 +199,26 @@ euler16 :: Integer
 euler16 = sum (map e ( (show (2^1000)))) where
     e :: Char -> Integer
     e x = read (x : [])
+
+
+
+wordy :: Int -> String
+wordy x 
+   | x == 1000 = "one thousand"
+   | x `mod` 100 == 0 = (wordy (x `div` 100)) ++ " hundred"
+   | x < 100 && x `mod` 10 == 0 = ["ten", "twenty", "thirty", "fourty", "fifty", "sixty", "seventy", "eighty", "ninety"] !! ((x `div` 10) -1)
+   | x > 0 && x < 20 = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"]!! (x -1)
+   | x > 20 && x < 100 = wordy (10 * (x `div` 10)) ++ " " ++ wordy (x `mod` 10) 
+   | x > 100 && x < 1000 = wordy (x `div` 100) ++ " hundred and " ++ wordy (x `mod` 100) 
+   | otherwise = error (show x)
+
+
+euler17 :: Int
+euler17 = sum (map (length . (filter (/= ' ')) . wordy) [1 .. 1000])
+
+
+
        
+
+
+
