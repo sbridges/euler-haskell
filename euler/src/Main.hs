@@ -216,9 +216,20 @@ wordy x
 euler17 :: Int
 euler17 = sum (map (length . (filter (/= ' ')) . wordy) [1 .. 1000])
 
-
-
-       
+-- the array is reversed, with the last row first
+-- merge the last two rows, where row N-1 is added to the
+-- higher of its two children, repeat until we have no more rows, 
+-- and the last element is the answer
+greatestPath :: [[Int]] -> Int
+greatestPath (x : []) = head x
+greatestPath (x : ys) = greatestPath ( (merge x (head ys)) : (tail ys)) where
+    merge :: [Int] -> [Int] -> [Int]
+    merge x y = map (\(a,b) -> a + b) (zip (maxChild x) y)
+    maxChild :: [Int] -> [Int]
+    maxChild z = map (\(a, b) -> max a b)  (zip z (tail z))
+           
+euler18 :: Int
+euler18 = greatestPath e18Triangle
 
 
 
